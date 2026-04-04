@@ -11,6 +11,17 @@ Sanitized macOS shell environment and bootstrap script.
 - `.ssh/config.template`
 - `setup.sh`
 
+## Key apps installed by Homebrew
+
+- Claude desktop
+- Codex
+- Raycast
+- Google Chrome
+- Visual Studio Code
+- Spotify
+- Ghostty
+- CodexBar
+
 ## What was intentionally left out
 
 - API keys, OAuth tokens, and other secrets
