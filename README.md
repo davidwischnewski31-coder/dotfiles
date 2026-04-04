@@ -15,12 +15,20 @@ Sanitized macOS shell environment and bootstrap script.
 
 - Claude desktop
 - Codex
+- ChatGPT
+- cmux
+- Docker Desktop
+- Granola
+- Notion
+- Obsidian
 - Raycast
 - Google Chrome
 - Visual Studio Code
 - Spotify
+- Telegram
+- WhatsApp
+- Wispr Flow
 - Ghostty
-- CodexBar
 
 ## What was intentionally left out
 
