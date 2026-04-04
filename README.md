@@ -25,6 +25,7 @@ Sanitized macOS shell environment and bootstrap script.
 - Google Chrome
 - Visual Studio Code
 - Spotify
+- Tailscale
 - Telegram
 - WhatsApp
 - Wispr Flow
@@ -51,6 +52,12 @@ The script:
 - creates `~/.ssh/config` from the template if one does not exist
 - creates `~/.env.private` if missing
 - installs Claude Code
+
+## Companion private repo
+
+This repo is the public install/bootstrap layer.
+
+For machine-specific restore state like Claude, Codex, Raycast, Docker, and editor preferences, run the private companion repo after this setup completes.
 
 ## Private secrets
 
