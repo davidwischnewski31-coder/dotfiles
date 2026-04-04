@@ -1,0 +1,21 @@
+# Set identity locally after bootstrap:
+# git config --global user.name "Your Name"
+# git config --global user.email "you@example.com"
+
+[init]
+	defaultBranch = main
+
+[fetch]
+	prune = true
+
+[pull]
+	rebase = false
+
+[push]
+	autoSetupRemote = true
+
+[rebase]
+	autoStash = true
+
+[rerere]
+	enabled = true

@@ -1,0 +1,25 @@
+tap "hudochenkov/sshpass"
+tap "steipete/tap"
+tap "supabase/tap"
+
+brew "cmake"
+brew "ffmpeg"
+brew "gh"
+brew "git-filter-repo"
+brew "gnupg"
+brew "ollama", restart_service: :changed
+brew "rtk"
+brew "rust"
+brew "sox"
+brew "tailscale", restart_service: :changed
+brew "tmux"
+brew "uv"
+brew "whisper-cpp"
+brew "hudochenkov/sshpass/sshpass"
+brew "supabase/tap/supabase"
+
+cask "codex"
+cask "codexbar"
+cask "gcloud-cli"
+cask "ghostty"
+cask "ngrok"
