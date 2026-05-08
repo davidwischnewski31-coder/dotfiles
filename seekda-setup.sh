@@ -1,20 +1,15 @@
 #!/usr/bin/env bash
-# Run this after setup.sh to configure the Seekda work environment.
+# Run this after vault-restore.sh to configure the Seekda work environment.
 set -euo pipefail
 
 SEEKDA_KEY="$HOME/.ssh/id_ed25519_seekda_github"
 SEEKDA_DIR="$HOME/seekda-main"
 
-# 1. Generate Seekda SSH key if missing
+# 1. Verify SSH key exists (should have been restored by vault-restore.sh)
 if [ ! -f "$SEEKDA_KEY" ]; then
-  echo "Generating Seekda GitHub SSH key..."
-  ssh-keygen -t ed25519 -C "david.wischnewski@seekda.com" -f "$SEEKDA_KEY" -N ""
-  echo ""
-  echo "Add this public key to https://github.com/settings/keys (DavidSeekda account):"
-  echo ""
-  cat "${SEEKDA_KEY}.pub"
-  echo ""
-  read -rp "Press Enter once the key has been added to GitHub..."
+  echo "ERROR: $SEEKDA_KEY not found."
+  echo "Run vault-restore.sh first to restore your SSH keys from Vaultwarden."
+  exit 1
 fi
 
 # 2. Clone seekda-main
@@ -54,6 +49,3 @@ echo ""
 echo "Next steps:"
 echo "  1. Open Cursor → Settings → Tools → MCP → enable Atlassian-MCP-Server and Pylon → click Connect"
 echo "  2. Complete OAuth in the browser for each"
-echo "  3. Set your git identity:"
-echo "     git config --global user.name 'David Wischnewski'"
-echo "     git config --global user.email 'david.wischnewski@seekda.com'"

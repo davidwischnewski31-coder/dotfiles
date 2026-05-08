@@ -2,6 +2,7 @@ tap "hudochenkov/sshpass"
 tap "steipete/tap"
 tap "supabase/tap"
 
+brew "bitwarden-cli"
 brew "cmake"
 brew "direnv"
 brew "ffmpeg"

@@ -16,8 +16,8 @@ alias aiusage='codexbar usage --provider all'
 alias claudeusage='codexbar usage --provider claude'
 alias codexusage='codexbar usage --provider codex'
 
+# Bitwarden / Vaultwarden
+export BW_SERVER="https://vault.aspire.software"
+
 # Claude Code shortcuts.
 alias cc='claude'
-if [ -f "$HOME/.claude/playwright-mcp.json" ]; then
-  alias ccb='claude --mcp-config ~/.claude/playwright-mcp.json'
-fi
