@@ -10,15 +10,17 @@ Sanitized macOS shell environment and bootstrap script.
 - `.gitconfig`
 - `.ssh/config.template`
 - `setup.sh`
+- `seekda-setup.sh`
 
 ## Key apps installed by Homebrew
 
 - Claude desktop
-- Codex
+- Codex + Codexbar
 - ChatGPT
 - cmux
 - Docker Desktop
 - Granola
+- Msty
 - Notion
 - Obsidian
 - Raycast
@@ -27,6 +29,7 @@ Sanitized macOS shell environment and bootstrap script.
 - Spotify
 - Tailscale
 - Telegram
+- Tunnelblick
 - WhatsApp
 - Wispr Flow
 - Ghostty
@@ -52,6 +55,18 @@ The script:
 - creates `~/.ssh/config` from the template if one does not exist
 - creates `~/.env.private` if missing
 - installs Claude Code
+
+## Seekda work setup
+
+After `setup.sh`, run `seekda-setup.sh` to:
+
+- generate the Seekda GitHub SSH key (`~/.ssh/id_ed25519_seekda_github`)
+- clone `seekda-main`
+- write the Cursor MCP config (Jira/Atlassian + Pylon)
+
+```bash
+./seekda-setup.sh
+```
 
 ## Companion private repo
 
