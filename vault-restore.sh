@@ -10,6 +10,27 @@ bw_get_note() {
   bw get item "$name" 2>/dev/null | jq -r '.notes // empty'
 }
 
+bw_get_attachment() {
+  local name="$1"
+  local outpath="$2"
+
+  local item
+  item=$(bw get item "$name" 2>/dev/null)
+  local item_id attachment_id
+  item_id=$(echo "$item" | jq -r '.id')
+  attachment_id=$(echo "$item" | jq -r '.attachments[0].id // empty')
+
+  if [ -z "$attachment_id" ]; then
+    echo "  WARNING: no attachment found for $name"
+    return
+  fi
+
+  mkdir -p "$(dirname "$outpath")"
+  bw get attachment "$attachment_id" --itemid "$item_id" --output "$outpath" >/dev/null
+  chmod 600 "$outpath"
+  echo "  wrote $outpath"
+}
+
 write_file() {
   local path="$1"
   local content="$2"
@@ -36,37 +57,30 @@ fi
 bw sync >/dev/null
 echo "Restoring secrets from $VAULT_SERVER..."
 
-# SSH keys
+# SSH keys (stored as secure notes)
 SSH_PERSONAL=$(bw_get_note "dotfiles/ssh-personal")
 if [ -n "$SSH_PERSONAL" ]; then
   write_file "$HOME/.ssh/id_ed25519" "$SSH_PERSONAL" 600
+  ssh-keygen -y -f "$HOME/.ssh/id_ed25519" > "$HOME/.ssh/id_ed25519.pub" 2>/dev/null || true
   ssh-add "$HOME/.ssh/id_ed25519" 2>/dev/null || true
 fi
 
 SSH_SEEKDA=$(bw_get_note "dotfiles/ssh-seekda")
 if [ -n "$SSH_SEEKDA" ]; then
   write_file "$HOME/.ssh/id_ed25519_seekda_github" "$SSH_SEEKDA" 600
+  ssh-keygen -y -f "$HOME/.ssh/id_ed25519_seekda_github" > "$HOME/.ssh/id_ed25519_seekda_github.pub" 2>/dev/null || true
   ssh-add "$HOME/.ssh/id_ed25519_seekda_github" 2>/dev/null || true
 fi
 
-# Generate public keys from private keys if missing
-[ -f "$HOME/.ssh/id_ed25519" ] && [ ! -f "$HOME/.ssh/id_ed25519.pub" ] && \
-  ssh-keygen -y -f "$HOME/.ssh/id_ed25519" > "$HOME/.ssh/id_ed25519.pub"
-[ -f "$HOME/.ssh/id_ed25519_seekda_github" ] && [ ! -f "$HOME/.ssh/id_ed25519_seekda_github.pub" ] && \
-  ssh-keygen -y -f "$HOME/.ssh/id_ed25519_seekda_github" > "$HOME/.ssh/id_ed25519_seekda_github.pub"
-
-# Env files
-DAVIDAI_ENV=$(bw_get_note "dotfiles/davidai-env")
-[ -n "$DAVIDAI_ENV" ] && write_file "$HOME/davidai/.env" "$DAVIDAI_ENV" 600
-
-ENV_PRIVATE=$(bw_get_note "dotfiles/env-private")
-[ -n "$ENV_PRIVATE" ] && write_file "$HOME/.env.private" "$ENV_PRIVATE" 600
+# Env files (stored as attachments)
+bw_get_attachment "dotfiles/davidai-env" "$HOME/davidai/.env"
+bw_get_attachment "dotfiles/env-private" "$HOME/.env.private"
 
 echo ""
 echo "Done. Secrets restored."
 echo ""
 echo "Next: authenticate CLI tools"
-echo "  gh auth login                          # GitHub (both accounts)"
+echo "  gh auth login                          # GitHub (repeat for both accounts)"
 echo "  gcloud auth login                      # Google Cloud"
 echo "  git config --global user.name 'David Wischnewski'"
 echo "  git config --global user.email 'david.wischnewski@seekda.com'"
