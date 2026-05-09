@@ -21,8 +21,8 @@ write_file() {
   echo "  wrote $path"
 }
 
-# Configure server
-bw config server "$VAULT_SERVER" >/dev/null
+# Configure server (no-op if already logged in)
+bw config server "$VAULT_SERVER" 2>/dev/null || true
 
 # Require an active session
 if [ -z "${BW_SESSION:-}" ]; then
