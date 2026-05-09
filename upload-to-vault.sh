@@ -22,12 +22,15 @@ bw_upsert() {
     --arg notes "$content" \
     '{type: 2, name: $name, notes: $notes, secureNote: {type: 0}}')
 
+  local encoded
+  encoded=$(echo "$item_json" | base64)
+
   if [ -n "$existing_id" ]; then
     echo "Updating: $name"
-    bw edit item "$existing_id" "$item_json" >/dev/null
+    bw edit item "$existing_id" "$encoded" >/dev/null
   else
     echo "Creating: $name"
-    bw create item "$item_json" >/dev/null
+    bw create item "$encoded" >/dev/null
   fi
 }
 
