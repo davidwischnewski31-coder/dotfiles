@@ -17,10 +17,10 @@ bw_upsert() {
   existing_id=$(bw list items --search "$name" 2>/dev/null | jq -r --arg n "$name" '.[] | select(.name == $n) | .id' | head -1)
 
   local item_json
-  item_json=$(bw get template item | jq \
+  item_json=$(jq -n \
     --arg name "$name" \
     --arg notes "$content" \
-    '.type = 2 | .name = $name | .notes = $notes | .secureNote = {"type": 0}')
+    '{type: 2, name: $name, notes: $notes, secureNote: {type: 0}}')
 
   if [ -n "$existing_id" ]; then
     echo "Updating: $name"
